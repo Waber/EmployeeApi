@@ -11,7 +11,7 @@ public class CenterDtoMapper {
         return modelMapper.map(center, CenterDto.class);
     }
 
-    public static Center convertDtoToEntiy(CenterDto centerDto){
+    public static Center convertDtoToEntity(CenterDto centerDto){
         return modelMapper.map(centerDto, Center.class);
     }
 }

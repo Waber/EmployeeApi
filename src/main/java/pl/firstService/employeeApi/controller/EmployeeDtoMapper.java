@@ -1,7 +1,6 @@
 package pl.firstService.employeeApi.controller;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Service;
 import pl.firstService.employeeApi.controller.dto.EmployeeDto;
 import pl.firstService.employeeApi.model.Employee;
 

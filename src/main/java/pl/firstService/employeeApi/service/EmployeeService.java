@@ -2,10 +2,15 @@ package pl.firstService.employeeApi.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.firstService.employeeApi.dto.EmployeeEmployedDTO;
 import pl.firstService.employeeApi.repository.EmployeeRepository;
 import pl.firstService.employeeApi.model.Employee;
 
+import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +25,10 @@ public class EmployeeService {
     public Employee getEmployeeById(long id) {
         return employeeRepository.findById(id)
                 .orElseThrow(NullPointerException::new);
+    }
+
+    public boolean existsById(Long id){
+        return employeeRepository.existsById(id);
     }
 
     public Employee addEmployee(Employee employee) {
@@ -48,4 +57,23 @@ public class EmployeeService {
                     return employeeRepository.save(changedEmployee);
                 });
     }
+
+    public List<Employee> getEmployeeEditHistory(Long employeeId) {
+        List<Employee> historyList = new ArrayList<Employee>();
+        employeeRepository.findRevisions(employeeId).get().forEach(x -> {
+            x.getEntity().setEditVersion(x.getMetadata());
+            historyList.add(x.getEntity());
+        });
+        return historyList;
+    }
+
+    public boolean didEmployeeWorkInThisYear(Long employeeId, LocalDate year){
+        Optional<Employee> emploj = employeeRepository.findById(employeeId);
+        if (emploj.get().getJobStartDate().isBefore(year)){
+            return true;
+        }
+        return false;
+    }
+
+
 }

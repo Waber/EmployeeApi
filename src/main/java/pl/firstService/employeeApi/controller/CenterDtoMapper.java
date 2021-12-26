@@ -1,7 +1,7 @@
 package pl.firstService.employeeApi.controller;
 
 import org.modelmapper.ModelMapper;
-import pl.firstService.employeeApi.controller.dto.CenterDto;
+import pl.firstService.employeeApi.dto.CenterDto;
 import pl.firstService.employeeApi.model.Center;
 
 public class CenterDtoMapper {

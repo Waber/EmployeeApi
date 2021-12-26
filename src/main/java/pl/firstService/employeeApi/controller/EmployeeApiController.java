@@ -1,12 +1,19 @@
 package pl.firstService.employeeApi.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.firstService.employeeApi.controller.dto.EmployeeDto;
+import pl.firstService.employeeApi.dto.EmployeeDto;
+import pl.firstService.employeeApi.dto.EmployeeEmployedDTO;
 import pl.firstService.employeeApi.model.Employee;
 import pl.firstService.employeeApi.service.EmployeeService;
 
+import javax.xml.ws.Response;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,6 +39,29 @@ public class EmployeeApiController {
         return employeeDtoMapper.convertToDto(employeeService.getEmployeeById(id));
     }
 
+    @GetMapping("/{id}/history")
+    @Operation(summary = "Get changes made to employee")
+    public List<EmployeeDto> getEmployeeEditHistory(@PathVariable long id){
+        List<Employee> employees = employeeService.getEmployeeEditHistory(id);
+        return employees.stream()
+                .map(employee -> employeeDtoMapper.convertToDto(employee))
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}/{year}")
+    @Operation(summary = "Did the employee worked in this year")
+    public ResponseEntity didEmployeeWorkInThisYear(@PathVariable long id, @DateTimeFormat(pattern = "yyyy") @PathVariable LocalDate year){
+        if(!employeeService.existsById(id)){
+            return new ResponseEntity(String.format("Employee of id = %s does not exist in the database",id),HttpStatus.BAD_REQUEST);
+        }
+        if(employeeService.didEmployeeWorkInThisYear(id,year)){
+            return ResponseEntity.ok(employeeDtoMapper.didEmployeeWorkedInAskedYear(employeeService.getEmployeeById(id),true,year));
+        }
+        return ResponseEntity.ok(employeeDtoMapper.didEmployeeWorkedInAskedYear(employeeService.getEmployeeById(id),false,year));
+    }
+
+    
+
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public List<EmployeeDto> createEmployee(@RequestBody List<EmployeeDto> employeeDto){
@@ -51,6 +81,7 @@ public class EmployeeApiController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEmployee(@PathVariable long id){
         employeeService.deleteEmployee(id);
     }

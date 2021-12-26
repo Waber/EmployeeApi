@@ -1,4 +1,4 @@
-package pl.firstService.employeeApi.controller.dto;
+package pl.firstService.employeeApi.dto;
 
 import lombok.Builder;
 import lombok.Getter;

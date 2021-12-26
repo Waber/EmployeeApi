@@ -2,6 +2,8 @@ package pl.firstService.employeeApi.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.envers.Audited;
+import org.springframework.data.history.RevisionMetadata;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -12,6 +14,7 @@ import java.time.LocalDate;
 @Table(name = "employees")
 @Getter
 @Setter
+@Audited
 public class Employee {
 
     @Id
@@ -43,6 +46,9 @@ public class Employee {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "center_id", referencedColumnName = "id", nullable = true)
     private Center center;
+
+    @Transient
+    private RevisionMetadata<Long> editVersion;
 
     public enum Position {PROGRAMMER, BUSINESS_ANALYST, PRODUCT_OWNER, MANAGER}
 

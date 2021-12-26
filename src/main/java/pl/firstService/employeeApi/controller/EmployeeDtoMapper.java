@@ -1,9 +1,11 @@
 package pl.firstService.employeeApi.controller;
 
 import org.modelmapper.ModelMapper;
-import pl.firstService.employeeApi.controller.dto.EmployeeDto;
+import pl.firstService.employeeApi.dto.EmployeeDto;
+import pl.firstService.employeeApi.dto.EmployeeEmployedDTO;
 import pl.firstService.employeeApi.model.Employee;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,5 +25,13 @@ public class EmployeeDtoMapper {
         return employees.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
+    }
+
+    public EmployeeEmployedDTO didEmployeeWorkedInAskedYear(Employee employee, boolean worked, LocalDate askedYear){
+        EmployeeEmployedDTO.EmployeeEmployedDTOBuilder builder = EmployeeEmployedDTO.builder();
+        return builder.id(employee.getId())
+                .askedYear(askedYear)
+                .worked(worked)
+                .build();
     }
 }

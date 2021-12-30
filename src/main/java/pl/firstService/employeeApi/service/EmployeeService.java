@@ -2,12 +2,12 @@ package pl.firstService.employeeApi.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.firstService.employeeApi.dto.EmployeeEmployedDTO;
-import pl.firstService.employeeApi.repository.EmployeeRepository;
 import pl.firstService.employeeApi.model.Employee;
+import pl.firstService.employeeApi.repository.EmployeeRepository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -73,6 +73,18 @@ public class EmployeeService {
             return true;
         }
         return false;
+    }
+
+    public BigDecimal calculateReceivedSalarySinceWorkBegin(Long employeeId){
+        Optional<Employee> em = employeeRepository.findById(employeeId);
+        long monthsBetween = ChronoUnit.MONTHS.between(
+               em.get().getJobStartDate().withDayOfMonth(1)
+                ,LocalDate.now().withDayOfMonth(1));
+        return em.get().getSalary().multiply(BigDecimal.valueOf(monthsBetween));
+    }
+
+    public BigDecimal getAverageEmployeeSalary(Long employeeId){
+        return employeeRepository.getAverageSalary(employeeId);
     }
 
 

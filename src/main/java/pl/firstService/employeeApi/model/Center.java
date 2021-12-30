@@ -2,6 +2,8 @@ package pl.firstService.employeeApi.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.envers.Audited;
+import org.springframework.data.history.RevisionMetadata;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,6 +12,7 @@ import java.util.List;
 @Table(name = "center")
 @Getter
 @Setter
+@Audited
 public class Center {
 
     @Id
@@ -26,4 +29,7 @@ public class Center {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "center")
     @Column(name = "employees", nullable = false)
     private List<Employee> employees;
+
+    @Transient
+    private RevisionMetadata<Long> editVersion;
 }

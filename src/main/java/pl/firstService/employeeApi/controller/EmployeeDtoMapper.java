@@ -3,8 +3,11 @@ package pl.firstService.employeeApi.controller;
 import org.modelmapper.ModelMapper;
 import pl.firstService.employeeApi.dto.EmployeeDto;
 import pl.firstService.employeeApi.dto.EmployeeEmployedDTO;
+import pl.firstService.employeeApi.dto.EmployeeSumOfSalaryDTO;
 import pl.firstService.employeeApi.model.Employee;
+import pl.firstService.employeeApi.service.EmployeeService;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
@@ -27,11 +30,23 @@ public class EmployeeDtoMapper {
                 .collect(Collectors.toList());
     }
 
-    public EmployeeEmployedDTO didEmployeeWorkedInAskedYear(Employee employee, boolean worked, LocalDate askedYear){
+    public EmployeeEmployedDTO convertToEmployedDto(Employee employee, boolean worked, LocalDate askedYear){
         EmployeeEmployedDTO.EmployeeEmployedDTOBuilder builder = EmployeeEmployedDTO.builder();
         return builder.id(employee.getId())
                 .askedYear(askedYear)
                 .worked(worked)
+                .build();
+    }
+
+    public EmployeeSumOfSalaryDTO convertToSumOfSalaryDTO(Employee employee, BigDecimal sumOfSalaryEarned){
+        EmployeeSumOfSalaryDTO.EmployeeSumOfSalaryDTOBuilder builder = EmployeeSumOfSalaryDTO.builder();
+        return builder
+                .id(employee.getId())
+                .firstName(employee.getFirstName())
+                .lastName(employee.getLastName())
+                .jobStartDate(employee.getJobStartDate())
+                .salary(employee.getSalary())
+                .amountOfSalaryEarnedSoFar(sumOfSalaryEarned)
                 .build();
     }
 }

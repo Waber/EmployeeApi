@@ -22,4 +22,6 @@ public class EmployeeDto {
     @DateTimeFormat(pattern = "yyyy-MM")
     private LocalDate jobStartDate;
     private String centerName;
+    @DateTimeFormat(pattern = "yyyy-MM")
+    private LocalDate createdDate;
 }

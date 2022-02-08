@@ -1,11 +1,11 @@
 package pl.firstService.employeeApi.controller;
 
 import org.modelmapper.ModelMapper;
+import pl.firstService.employeeApi.dto.EmployeeAvgSalaryDto;
 import pl.firstService.employeeApi.dto.EmployeeDto;
 import pl.firstService.employeeApi.dto.EmployeeEmployedDTO;
 import pl.firstService.employeeApi.dto.EmployeeSumOfSalaryDTO;
 import pl.firstService.employeeApi.model.Employee;
-import pl.firstService.employeeApi.service.EmployeeService;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -47,6 +47,18 @@ public class EmployeeDtoMapper {
                 .jobStartDate(employee.getJobStartDate())
                 .salary(employee.getSalary())
                 .amountOfSalaryEarnedSoFar(sumOfSalaryEarned)
+                .build();
+    }
+
+    public EmployeeAvgSalaryDto convertToAvgSalaryDTO(Employee employee, BigDecimal averageSalary){
+        EmployeeAvgSalaryDto.EmployeeAvgSalaryDtoBuilder builder = EmployeeAvgSalaryDto.builder();
+        return builder
+                .id(employee.getId())
+                .firstName(employee.getFirstName())
+                .lastName(employee.getLastName())
+                .jobStartDate(employee.getJobStartDate())
+                .salary(employee.getSalary())
+                .averageSalary(averageSalary)
                 .build();
     }
 }

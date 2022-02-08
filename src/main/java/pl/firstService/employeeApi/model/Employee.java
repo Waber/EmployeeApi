@@ -47,6 +47,15 @@ public class Employee {
     @JoinColumn(name = "center_id", referencedColumnName = "id", nullable = true)
     private Center center;
 
+    @Column(name = "created_date", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM")
+    private LocalDate createdDate;
+
+    @Column(name = "last_modified_date", nullable = true)
+    @DateTimeFormat(pattern = "yyyy-MM")
+    private LocalDate lastModifiedDate;
+
+
     @Transient
     private RevisionMetadata<Long> editVersion;
 

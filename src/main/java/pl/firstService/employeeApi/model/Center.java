@@ -4,8 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.envers.Audited;
 import org.springframework.data.history.RevisionMetadata;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -29,6 +31,14 @@ public class Center {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "center")
     @Column(name = "employees", nullable = false)
     private List<Employee> employees;
+
+    @Column(name = "created_date", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM")
+    private LocalDate createdDate;
+
+    @Column(name = "last_modified_date", nullable = true)
+    @DateTimeFormat(pattern = "yyyy-MM")
+    private LocalDate lastModifiedDate;
 
     @Transient
     private RevisionMetadata<Long> editVersion;

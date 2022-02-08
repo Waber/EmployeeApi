@@ -83,8 +83,9 @@ public class EmployeeService {
         return em.get().getSalary().multiply(BigDecimal.valueOf(monthsBetween));
     }
 
-    public BigDecimal getAverageEmployeeSalary(Long employeeId){
-        return employeeRepository.getAverageSalary(employeeId);
+
+    public BigDecimal getAverageEmployeeSalary(Long employeeId, int year){
+        return  employeeRepository.getAverageSalary(employeeId, year);
     }
 
 

@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.firstService.employeeApi.dto.EmployeeAvgSalaryDto;
 import pl.firstService.employeeApi.dto.EmployeeDto;
 import pl.firstService.employeeApi.dto.EmployeeSumOfSalaryDTO;
 import pl.firstService.employeeApi.model.Employee;
@@ -69,9 +70,11 @@ public class EmployeeApiController {
 
     @GetMapping("/average/{employeeId}")
     @Operation(summary = "Return average salary of employee")
-    public EmployeeSumOfSalaryDTO calculateAverageSalaryOfEmployee(@PathVariable long id){
+    public EmployeeAvgSalaryDto calculateAverageSalaryOfEmployee(@PathVariable long id, @PathVariable int year){
         Employee employee = employeeService.getEmployeeById(id);
-    }//TODO dto, metoda gotowa
+        BigDecimal averageSalary = employeeService.getAverageEmployeeSalary(id, year);
+        return employeeDtoMapper.convertToAvgSalaryDTO(employee,averageSalary);
+    }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)

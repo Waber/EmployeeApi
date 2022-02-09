@@ -35,22 +35,23 @@ public class EmployeeApiController {
     }
 
     @GetMapping("/{employeeId}")
-    public EmployeeDto getEmployeeById(@PathVariable long id){
+    public EmployeeDto getEmployeeById(@PathVariable Long id){
         return employeeDtoMapper.convertToDto(employeeService.getEmployeeById(id));
     }
 
     @GetMapping("/{employeeId}/history")
     @Operation(summary = "Get changes made to employee")
-    public List<EmployeeDto> getEmployeeEditHistory(@PathVariable long id){
+    public List<EmployeeDto> getEmployeeEditHistory(@PathVariable Long id){
         List<Employee> employees = employeeService.getEmployeeEditHistory(id);
         return employees.stream()
                 .map(employee -> employeeDtoMapper.convertToDto(employee))
                 .collect(Collectors.toList());
+        //TODO dodać dto z kolumnami dat
     }
 
     @GetMapping("/{employeeId}/{year}")
     @Operation(summary = "Did the employee worked in this year")
-    public ResponseEntity didEmployeeWorkInThisYear(@PathVariable long id, @DateTimeFormat(pattern = "yyyy") @PathVariable LocalDate year){
+    public ResponseEntity didEmployeeWorkInThisYear(@PathVariable Long id, @DateTimeFormat(pattern = "yyyy") @PathVariable LocalDate year){
         if(!employeeService.existsById(id)){
             return new ResponseEntity(String.format("Employee of id = %s does not exist in the database",id),HttpStatus.BAD_REQUEST);
         }
@@ -62,7 +63,7 @@ public class EmployeeApiController {
 
     @GetMapping("/sum/{employeeId}")
     @Operation(summary = "Return sum of salary received by employee since his work started")
-    public EmployeeSumOfSalaryDTO calculateSumOfEmployeeSalary(@PathVariable long id){
+    public EmployeeSumOfSalaryDTO calculateSumOfEmployeeSalary(@PathVariable Long id){
         Employee employee = employeeService.getEmployeeById(id);
         BigDecimal salarySum = employeeService.calculateReceivedSalarySinceWorkBegin(id);
         return employeeDtoMapper.convertToSumOfSalaryDTO(employee,salarySum);
@@ -70,7 +71,7 @@ public class EmployeeApiController {
 
     @GetMapping("/average/{employeeId}")
     @Operation(summary = "Return average salary of employee")
-    public EmployeeAvgSalaryDto calculateAverageSalaryOfEmployee(@PathVariable long id, @PathVariable int year){
+    public EmployeeAvgSalaryDto calculateAverageSalaryOfEmployee(@PathVariable Long id, @PathVariable int year){
         Employee employee = employeeService.getEmployeeById(id);
         BigDecimal averageSalary = employeeService.getAverageEmployeeSalary(id, year);
         return employeeDtoMapper.convertToAvgSalaryDTO(employee,averageSalary);
@@ -88,7 +89,7 @@ public class EmployeeApiController {
 
     @PutMapping("/{employeeId}")
     @ResponseStatus(HttpStatus.OK)
-    public EmployeeDto updateEmployeeData(@RequestBody EmployeeDto employeeDto, @PathVariable long id){
+    public EmployeeDto updateEmployeeData(@RequestBody EmployeeDto employeeDto, @PathVariable Long id){
         Employee employee = EmployeeDtoMapper.convertDtoToEntity(employeeDto);
         Employee employeeUpdated = employeeService.updateEmployee(employee,id);
         return employeeDtoMapper.convertToDto(employeeUpdated);
@@ -96,7 +97,7 @@ public class EmployeeApiController {
 
     @DeleteMapping("/{employeeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteEmployee(@PathVariable long id){
+    public void deleteEmployee(@PathVariable Long id){
         employeeService.deleteEmployee(id);
     }
 

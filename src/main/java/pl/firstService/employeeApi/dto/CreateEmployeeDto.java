@@ -10,10 +10,7 @@ import java.time.LocalDate;
 
 @Getter
 @Builder
-public class EmployeeDto {
-
-
-    private Long id;
+public class CreateEmployeeDto {
     private Long personalId;
     private String firstName;
     private String lastName;
@@ -22,6 +19,4 @@ public class EmployeeDto {
     @DateTimeFormat(pattern = "yyyy-MM")
     private LocalDate jobStartDate;
     private String centerName;
-    @DateTimeFormat(pattern = "yyyy-MM")
-    private LocalDate createdDate;
 }

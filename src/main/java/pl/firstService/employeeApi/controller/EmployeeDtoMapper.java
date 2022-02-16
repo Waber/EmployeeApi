@@ -1,10 +1,7 @@
 package pl.firstService.employeeApi.controller;
 
 import org.modelmapper.ModelMapper;
-import pl.firstService.employeeApi.dto.EmployeeAvgSalaryDto;
-import pl.firstService.employeeApi.dto.EmployeeDto;
-import pl.firstService.employeeApi.dto.EmployeeEmployedDTO;
-import pl.firstService.employeeApi.dto.EmployeeSumOfSalaryDTO;
+import pl.firstService.employeeApi.dto.*;
 import pl.firstService.employeeApi.model.Employee;
 
 import java.math.BigDecimal;
@@ -16,15 +13,15 @@ import java.util.stream.Collectors;
 public class EmployeeDtoMapper {
     private static ModelMapper modelMapper;
 
-    public EmployeeDto convertToDto(Employee employee) {
-        return modelMapper.map(employee, EmployeeDto.class);
+    public EmployeeResponseDto convertToDto(Employee employee) {
+        return modelMapper.map(employee, EmployeeResponseDto.class);
     }
 
-    public static Employee convertDtoToEntity(EmployeeDto employeeDto){
+    public static Employee convertDtoToEntity(CreateEmployeeDto employeeDto){
         return modelMapper.map(employeeDto, Employee.class);
     }
 
-    public List<EmployeeDto> convertToDtos(Collection<Employee> employees){
+    public List<EmployeeResponseDto> convertToDtos(Collection<Employee> employees){
         return employees.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());

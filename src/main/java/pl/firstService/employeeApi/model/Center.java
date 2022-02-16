@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @Audited
-public class Center {
+public class Center  {
 
     @Id
     @Column(name = "id", nullable = false)

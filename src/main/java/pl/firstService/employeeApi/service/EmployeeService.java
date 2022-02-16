@@ -32,6 +32,8 @@ public class EmployeeService {
     }
 
     public Employee addEmployee(Employee employee) {
+        employee.setCreatedDate(LocalDate.now());
+        employee.setLastModifiedDate(LocalDate.now());
         return employeeRepository.save(employee);
     }
 
@@ -50,10 +52,13 @@ public class EmployeeService {
                     employee.setPosition(changedEmployee.getPosition());
                     employee.setSalary(changedEmployee.getSalary());
                     employee.setJobStartDate(changedEmployee.getJobStartDate());
+                    employee.setLastModifiedDate(LocalDate.now());
                     return employeeRepository.save(employee);
                 })
                 .orElseGet(() -> {
                     changedEmployee.setId(id);
+                    changedEmployee.setCreatedDate(LocalDate.now());
+                    changedEmployee.setLastModifiedDate(LocalDate.now());
                     return employeeRepository.save(changedEmployee);
                 });
     }

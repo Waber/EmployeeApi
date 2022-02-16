@@ -6,8 +6,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.firstService.employeeApi.dto.CreateEmployeeDto;
 import pl.firstService.employeeApi.dto.EmployeeAvgSalaryDto;
-import pl.firstService.employeeApi.dto.EmployeeDto;
+import pl.firstService.employeeApi.dto.EmployeeResponseDto;
 import pl.firstService.employeeApi.dto.EmployeeSumOfSalaryDTO;
 import pl.firstService.employeeApi.model.Employee;
 import pl.firstService.employeeApi.service.EmployeeService;
@@ -27,7 +28,7 @@ public class EmployeeApiController {
     private EmployeeDtoMapper employeeDtoMapper;
 
     @GetMapping()
-    public List<EmployeeDto> getEmployess() {
+    public List<EmployeeResponseDto> getEmployess() {
         List<Employee> employees = employeeService.getEmployees();
         return employees.stream()
                 .map(employee -> employeeDtoMapper.convertToDto(employee))
@@ -35,18 +36,17 @@ public class EmployeeApiController {
     }
 
     @GetMapping("/{employeeId}")
-    public EmployeeDto getEmployeeById(@PathVariable Long id){
+    public EmployeeResponseDto getEmployeeById(@PathVariable Long id){
         return employeeDtoMapper.convertToDto(employeeService.getEmployeeById(id));
     }
 
     @GetMapping("/{employeeId}/history")
     @Operation(summary = "Get changes made to employee")
-    public List<EmployeeDto> getEmployeeEditHistory(@PathVariable Long id){
+    public List<EmployeeResponseDto> getEmployeeEditHistory(@PathVariable Long id){
         List<Employee> employees = employeeService.getEmployeeEditHistory(id);
         return employees.stream()
                 .map(employee -> employeeDtoMapper.convertToDto(employee))
                 .collect(Collectors.toList());
-        //TODO dodać dto z kolumnami dat
     }
 
     @GetMapping("/{employeeId}/{year}")
@@ -79,7 +79,7 @@ public class EmployeeApiController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public List<EmployeeDto> createEmployee(@RequestBody List<EmployeeDto> employeeDto){
+    public List<EmployeeResponseDto> createEmployee(@RequestBody List<CreateEmployeeDto> employeeDto){
         List<Employee> employeesCreated = new ArrayList<>();
         employeeDto.forEach(employeeD -> {
             Employee employee = EmployeeDtoMapper.convertDtoToEntity(employeeD);
@@ -89,7 +89,7 @@ public class EmployeeApiController {
 
     @PutMapping("/{employeeId}")
     @ResponseStatus(HttpStatus.OK)
-    public EmployeeDto updateEmployeeData(@RequestBody EmployeeDto employeeDto, @PathVariable Long id){
+    public EmployeeResponseDto updateEmployeeData(@RequestBody CreateEmployeeDto employeeDto, @PathVariable Long id){
         Employee employee = EmployeeDtoMapper.convertDtoToEntity(employeeDto);
         Employee employeeUpdated = employeeService.updateEmployee(employee,id);
         return employeeDtoMapper.convertToDto(employeeUpdated);

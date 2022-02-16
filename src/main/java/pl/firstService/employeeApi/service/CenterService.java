@@ -23,6 +23,8 @@ public class CenterService {
     }
 
     public Center addCenter(Center center) {
+        center.setCreatedDate(LocalDate.now());
+        center.setLastModifiedDate(LocalDate.now());
         return centerRepository.save(center);
     }
 
@@ -40,6 +42,8 @@ public class CenterService {
                 })
                 .orElseGet(() -> {
                     changedCenter.setId(id);
+                    changedCenter.setCreatedDate(LocalDate.now());
+                    changedCenter.setLastModifiedDate(LocalDate.now());
                     return centerRepository.save(changedCenter);
                 });
     }

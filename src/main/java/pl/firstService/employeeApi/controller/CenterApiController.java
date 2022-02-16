@@ -1,9 +1,9 @@
 package pl.firstService.employeeApi.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.firstService.employeeApi.dto.CenterCreateDto;
@@ -12,7 +12,10 @@ import pl.firstService.employeeApi.model.Center;
 import pl.firstService.employeeApi.service.CenterService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +23,7 @@ import java.util.stream.Collectors;
 public class CenterApiController {
     private CenterDtoMapper centerDtoMapper;
     private CenterService centerService;
-    //TODO dopisać validatory
+    //TODO dopisać validatory, actuator, testy jednostkowe
 
     @GetMapping()
     @Operation(summary = "Get list of centers")
@@ -42,7 +45,6 @@ public class CenterApiController {
         return centers.stream()
                 .map(center -> centerDtoMapper.convertToDto(center))
                 .collect(Collectors.toList());
-        //TODO dodać dto z kolumnami dat
     }
 
     @PostMapping()

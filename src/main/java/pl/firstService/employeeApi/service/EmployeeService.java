@@ -8,7 +8,6 @@ import pl.firstService.employeeApi.repository.EmployeeRepository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +16,10 @@ import java.util.Optional;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+
+//    public EmployeeService(EmployeeRepository repo){
+//        employeeRepository = repo;
+//    }
 
     public List<Employee> getEmployees() {
         return employeeRepository.findAll();
@@ -63,14 +66,6 @@ public class EmployeeService {
                 });
     }
 
-    public List<Employee> getEmployeeEditHistory(Long employeeId) {
-        List<Employee> historyList = new ArrayList<Employee>();
-        employeeRepository.findRevisions(employeeId).get().forEach(x -> {
-            x.getEntity().setEditVersion(x.getMetadata());
-            historyList.add(x.getEntity());
-        });
-        return historyList;
-    }
 
     public boolean didEmployeeWorkInThisYear(Long employeeId, LocalDate year){
         Optional<Employee> emploj = employeeRepository.findById(employeeId);

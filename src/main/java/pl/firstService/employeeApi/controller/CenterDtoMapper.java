@@ -6,7 +6,7 @@ import pl.firstService.employeeApi.dto.CenterDto;
 import pl.firstService.employeeApi.model.Center;
 
 public class CenterDtoMapper {
-    private static ModelMapper modelMapper;
+    private static ModelMapper modelMapper = new ModelMapper();
 
     public static CenterDto convertToDto(Center center){
         return modelMapper.map(center, CenterDto.class);

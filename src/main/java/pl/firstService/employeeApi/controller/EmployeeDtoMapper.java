@@ -1,5 +1,6 @@
 package pl.firstService.employeeApi.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import pl.firstService.employeeApi.dto.*;
 import pl.firstService.employeeApi.model.Employee;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class EmployeeDtoMapper {
-    private static ModelMapper modelMapper;
+    private static ModelMapper modelMapper = new ModelMapper();
 
     public EmployeeResponseDto convertToDto(Employee employee) {
         return modelMapper.map(employee, EmployeeResponseDto.class);

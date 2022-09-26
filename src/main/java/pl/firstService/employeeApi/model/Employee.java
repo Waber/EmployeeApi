@@ -1,8 +1,7 @@
 package pl.firstService.employeeApi.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.envers.Audited;
+import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.springframework.data.history.RevisionMetadata;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -14,7 +13,9 @@ import java.time.LocalDate;
 @Table(name = "employees")
 @Getter
 @Setter
-@Audited
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder(toBuilder = true)
 public class Employee {
 
     @Id
@@ -44,6 +45,7 @@ public class Employee {
     private LocalDate jobStartDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "center_id", referencedColumnName = "id", nullable = true)
     private Center center;
 

@@ -8,7 +8,7 @@ import pl.firstService.employeeApi.model.Employee;
 
 import java.math.BigDecimal;
 
-public interface EmployeeRepository extends RevisionRepository<Employee,Long, Long>, JpaRepository<Employee, Long> {
+public interface EmployeeRepository extends  JpaRepository<Employee, Long> {
 
 
     @Query("SELECT avg (e.salary) as average_salary from Employee e where e.id=:id and extract (year from e.createdDate)=:year")

@@ -24,8 +24,10 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/employees")
 public class EmployeeApiController {
 
-    private EmployeeService employeeService;
-    private EmployeeDtoMapper employeeDtoMapper;
+    private final EmployeeService employeeService;
+    private final EmployeeDtoMapper employeeDtoMapper = new EmployeeDtoMapper();
+
+
 
     @GetMapping()
     public List<EmployeeResponseDto> getEmployess() {
@@ -40,14 +42,6 @@ public class EmployeeApiController {
         return employeeDtoMapper.convertToDto(employeeService.getEmployeeById(id));
     }
 
-    @GetMapping("/{employeeId}/history")
-    @Operation(summary = "Get changes made to employee")
-    public List<EmployeeResponseDto> getEmployeeEditHistory(@PathVariable Long id){
-        List<Employee> employees = employeeService.getEmployeeEditHistory(id);
-        return employees.stream()
-                .map(employee -> employeeDtoMapper.convertToDto(employee))
-                .collect(Collectors.toList());
-    }
 
     @GetMapping("/{employeeId}/{year}")
     @Operation(summary = "Did the employee worked in this year")

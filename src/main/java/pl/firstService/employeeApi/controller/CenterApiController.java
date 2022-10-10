@@ -82,14 +82,14 @@ public class CenterApiController {
         return ResponseEntity.created(uriComponents.toUri()).build();
     }
 
-    @PutMapping("/{centerId}")
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CenterDto updateCenterData(@RequestBody CenterDto centerDto, @PathVariable Long id) {
         Center centerUpdated = centerService.updateCenter(centerDtoMapper.convertDtoToEntity(centerDto), id);
         return centerDtoMapper.convertToDto(centerUpdated);
     }
 
-    @DeleteMapping("/{centerId}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCenter(@PathVariable Long id) {
         centerService.deleteCenter(id);

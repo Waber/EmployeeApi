@@ -45,8 +45,8 @@ public class Employee {
     private LocalDate jobStartDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    @JoinColumn(name = "center_id", referencedColumnName = "id", nullable = true)
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.MERGE})
+    @JoinColumn(name = "center_id", referencedColumnName = "id", nullable = false)
     private Center center;
 
     @Column(name = "created_date", nullable = false)

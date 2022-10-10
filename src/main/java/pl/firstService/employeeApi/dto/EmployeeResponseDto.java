@@ -1,7 +1,9 @@
 package pl.firstService.employeeApi.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.firstService.employeeApi.model.Employee;
 
@@ -10,6 +12,8 @@ import java.time.LocalDate;
 
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class EmployeeResponseDto {
 
 
@@ -21,7 +25,7 @@ public class EmployeeResponseDto {
     private BigDecimal salary;
     @DateTimeFormat(pattern = "yyyy-MM")
     private LocalDate jobStartDate;
-    private String centerName;
+    private String centerId;
     private LocalDate createdDate;
     private LocalDate lastModifiedDate;
 }

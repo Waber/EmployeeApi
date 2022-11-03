@@ -25,9 +25,8 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public Employee getEmployeeById(long id) {
-        return employeeRepository.findById(id)
-                .orElseThrow(NullPointerException::new);
+    public Optional<Employee> getEmployeeById(long id) {
+        return employeeRepository.findById(id);
     }
 
     public boolean existsById(Long id){
@@ -47,7 +46,7 @@ public class EmployeeService {
     public Employee updateEmployee(Employee changedEmployee, long id) {
         return employeeRepository.findById(id)
                 .map(employee -> {
-                    employee.setCenter(changedEmployee.getCenter());
+                   // employee.setCenterName(changedEmployee.getCenterName());
                     employee.setFirstName(changedEmployee.getFirstName());
                     employee.setJobStartDate(changedEmployee.getJobStartDate());
                     employee.setLastName(changedEmployee.getLastName());

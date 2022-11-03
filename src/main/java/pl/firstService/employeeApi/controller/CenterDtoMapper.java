@@ -6,17 +6,17 @@ import pl.firstService.employeeApi.dto.CenterDto;
 import pl.firstService.employeeApi.model.Center;
 
 public class CenterDtoMapper {
-    private static ModelMapper modelMapper = new ModelMapper();
+    private  ModelMapper modelMapper = new ModelMapper();
 
-    public static CenterDto convertToDto(Center center){
+    public  CenterDto convertToDto(Center center){
         return modelMapper.map(center, CenterDto.class);
     }
 
-    public static Center convertDtoToEntity(CenterDto centerDto){
+    public  Center convertDtoToEntity(CenterDto centerDto){
         return modelMapper.map(centerDto, Center.class);
     }
 
-    public static Center mapCreatedDtoToEntity(CenterCreateDto centerCreateDto){
+    public  Center mapCreatedDtoToEntity(CenterCreateDto centerCreateDto){
         return modelMapper.map(centerCreateDto, Center.class);
     }
 }

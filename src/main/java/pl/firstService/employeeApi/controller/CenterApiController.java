@@ -27,7 +27,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @RequiredArgsConstructor
 @RequestMapping(value = "/center")
 public class CenterApiController {
-    private CenterDtoMapper centerDtoMapper = new CenterDtoMapper();
+    private final CenterDtoMapper centerDtoMapper = new CenterDtoMapper();
     private final CenterService centerService;
 
     //TODO dopisać validatory, actuator, testy jednostkowe, przerobić na zwrot Response Entity, post może zwracać tylko id ale link do geta
@@ -43,7 +43,7 @@ public class CenterApiController {
     public List<CenterDto> getCenters() {
         List<Center> centers = centerService.getCenters();
         return centers.stream()
-                .map(CenterDtoMapper::convertToDto)
+                .map(centerDtoMapper::convertToDto)
                 .collect(Collectors.toList());
     }
 
@@ -74,12 +74,12 @@ public class CenterApiController {
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = "application/json",
             schema = @Schema(implementation = CenterValidationErrorDto.class))),
             @ApiResponse(responseCode = "500",description = "Server error", content = @Content)})
-    public ResponseEntity<Object> createCenter(@RequestBody CenterCreateDto centerDto) {
+    public ResponseEntity<CenterDto> createCenter(@RequestBody CenterCreateDto centerDto) {
         Center entity = centerDtoMapper.mapCreatedDtoToEntity(centerDto);
 
-        UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/center/{id}")
+        UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/center/{id}")//Dodaje nagłówek location
                 .buildAndExpand(centerService.addCenter(entity).getId());
-        return ResponseEntity.created(uriComponents.toUri()).build();
+        return ResponseEntity.created(uriComponents.toUri()).body(centerDtoMapper.convertToDto(entity));
     }
 
     @PutMapping("/{id}")

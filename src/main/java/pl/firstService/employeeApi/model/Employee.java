@@ -2,7 +2,6 @@ package pl.firstService.employeeApi.model;
 
 import lombok.*;
 import org.hibernate.annotations.Cascade;
-import org.springframework.data.history.RevisionMetadata;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -20,7 +19,7 @@ public class Employee {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "personal_id", nullable = false)
@@ -46,8 +45,8 @@ public class Employee {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.MERGE})
-    @JoinColumn(name = "center_id", referencedColumnName = "id", nullable = false)
-    private Center center;
+    @JoinColumn(name = "centerName", nullable = false)
+    private Center centerName;
 
     @Column(name = "created_date", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM")
@@ -58,8 +57,6 @@ public class Employee {
     private LocalDate lastModifiedDate;
 
 
-    @Transient
-    private RevisionMetadata<Long> editVersion;
 
     public enum Position {PROGRAMMER, BUSINESS_ANALYST, PRODUCT_OWNER, MANAGER}
 

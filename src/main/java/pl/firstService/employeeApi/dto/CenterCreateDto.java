@@ -1,10 +1,10 @@
 package pl.firstService.employeeApi.dto;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 
-@Builder
-@Getter
+@Data
 public class CenterCreateDto {
     private String centerName;
     private Long centerCode;

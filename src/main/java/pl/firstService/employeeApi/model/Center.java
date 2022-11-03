@@ -20,7 +20,7 @@ public class Center {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "center_name", nullable = false)
@@ -29,9 +29,9 @@ public class Center {
     @Column(name = "center_code")
     private Long centerCode;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "center", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "centerName", cascade = CascadeType.ALL)
     @Column(name = "employees")
-    private List<Employee> employees = new ArrayList<>();
+    private List<Employee> employees;
 
     @Column(name = "created_date")
     @DateTimeFormat(pattern = "yyyy-MM")
@@ -41,6 +41,5 @@ public class Center {
     @DateTimeFormat(pattern = "yyyy-MM")
     private LocalDate lastModifiedDate;
 
-    @Transient
-    private RevisionMetadata<Long> editVersion;
+
 }

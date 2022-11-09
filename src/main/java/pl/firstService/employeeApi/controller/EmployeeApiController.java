@@ -65,7 +65,6 @@ public class EmployeeApiController {
     }
 
 
-//  
 
     @PostMapping()
     @Operation(summary = "Add employee and create center if it does not exist")
@@ -84,17 +83,48 @@ public class EmployeeApiController {
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public EmployeeResponseDto updateEmployeeData(@RequestBody CreateEmployeeDto employeeDto, @PathVariable Long id){
-        Employee employee = employeeDtoMapper.convertDtoToEntity(employeeDto);
-        Employee employeeUpdated = employeeService.updateEmployee(employee,id);
-        return employeeDtoMapper.convertToDto(employeeUpdated);
+    @Operation(summary = "Update employee data")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Response ok", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EmployeeResponseDto.class))),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EmployeeResponseDto.class))),
+            @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal error", content = @Content)})
+    public ResponseEntity<EmployeeResponseDto> updateEmployee(@RequestBody CreateEmployeeDto employeeDto, @PathVariable Long id){
+        if (!employeeService.existsById(id)){
+            return new ResponseEntity("Cannot find employee with id = " + id, HttpStatus.NOT_FOUND);
+        }
+        Employee employeeUpdated = employeeService.updateEmployee(employeeDtoMapper.convertDtoToEntity(employeeDto),id);
+        return ResponseEntity.ok().body(employeeDtoMapper.convertToDto(employeeUpdated));
+    }
+
+    @PatchMapping("/{id}")
+    @Operation(summary = "Partially employee data update")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Response ok", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EmployeeResponseDto.class))),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EmployeeResponseDto.class))),
+            @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal error", content = @Content)})
+    public ResponseEntity<EmployeeResponseDto> partiallyUpdateEmployee(@RequestBody CreateEmployeeDto employeeDto, @PathVariable Long id){
+        if (!employeeService.existsById(id)){
+            return new ResponseEntity("Cannot find employee with id = " + id, HttpStatus.NOT_FOUND);
+        }
+        //TODO dopisac patch
+        
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteEmployee(@PathVariable Long id){
+    @Operation(summary = "Delete employee by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Successfully removed", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Server error", content = @Content)
+    })
+    public ResponseEntity deleteEmployee(@PathVariable Long id){
         employeeService.deleteEmployee(id);
+        return ResponseEntity.noContent().build();
     }
 
 

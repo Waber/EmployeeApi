@@ -21,8 +21,6 @@ public class EmployeeDtoMapper {
         return modelMapper.map(employee, EmployeeResponseDto.class);
     }
 
-    //TODO modelmapper działa, jeśli encja jest ustawiona z adnotacją @Data
-
 //    public EmployeeResponseDto convertToDtoManual(Employee employee) {
 //        EmployeeResponseDto.EmployeeResponseDtoBuilder builder = EmployeeResponseDto.builder();
 //        return builder

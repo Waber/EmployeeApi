@@ -77,7 +77,7 @@ public class CenterApiController {
     public ResponseEntity<CenterDto> createCenter(@RequestBody CenterCreateDto centerDto) {
         Center entity = centerDtoMapper.mapCreatedDtoToEntity(centerDto);
 
-        UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/center/{id}")//Dodaje nagłówek location
+        UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/center/{id}")
                 .buildAndExpand(centerService.addCenter(entity).getId());
         return ResponseEntity.created(uriComponents.toUri()).body(centerDtoMapper.convertToDto(entity));
     }
@@ -90,8 +90,13 @@ public class CenterApiController {
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCenter(@PathVariable Long id) {
+    @Operation(summary = "Delete center by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Succesfully removed", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Server error", content = @Content)
+    })
+    public ResponseEntity deleteCenter(@PathVariable Long id) {
         centerService.deleteCenter(id);
+        return ResponseEntity.noContent().build();
     }
 }

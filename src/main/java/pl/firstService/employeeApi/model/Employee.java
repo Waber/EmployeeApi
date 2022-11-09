@@ -25,34 +25,34 @@ public class Employee {
     @Column(name = "personal_id", nullable = false)
     private Long personalId;
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name" ,nullable = false)
+    @Column(name = "last_name")
     private String lastName;
 
     //More readability in database with this annotation
     @Enumerated(EnumType.STRING)
-    @Column(name = "position", nullable = false)
+    @Column(name = "position")
     private Position position;
 
-    @Column(name = "salary", nullable = false)
+    @Column(name = "salary")
     private BigDecimal salary;
 
-    @Column(name = "job_start_date", nullable = false)
+    @Column(name = "job_start_date")
     @DateTimeFormat(pattern = "yyyy-MM")
     private LocalDate jobStartDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.MERGE})
-    @JoinColumn(name = "centerName", nullable = false)
+    @JoinColumn(name = "centerName")
     private Center centerName;
 
-    @Column(name = "created_date", nullable = false)
+    @Column(name = "created_date")
     @DateTimeFormat(pattern = "yyyy-MM")
     private LocalDate createdDate;
 
-    @Column(name = "last_modified_date", nullable = true)
+    @Column(name = "last_modified_date")
     @DateTimeFormat(pattern = "yyyy-MM")
     private LocalDate lastModifiedDate;
 

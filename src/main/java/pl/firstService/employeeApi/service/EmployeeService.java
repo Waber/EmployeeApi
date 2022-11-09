@@ -17,9 +17,6 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
-//    public EmployeeService(EmployeeRepository repo){
-//        employeeRepository = repo;
-//    }
 
     public List<Employee> getEmployees() {
         return employeeRepository.findAll();
@@ -43,26 +40,11 @@ public class EmployeeService {
         employeeRepository.deleteById(id);
     }
 
-    public Employee updateEmployee(Employee changedEmployee, long id) {
-        return employeeRepository.findById(id)
-                .map(employee -> {
-                   // employee.setCenterName(changedEmployee.getCenterName());
-                    employee.setFirstName(changedEmployee.getFirstName());
-                    employee.setJobStartDate(changedEmployee.getJobStartDate());
-                    employee.setLastName(changedEmployee.getLastName());
-                    employee.setPersonalId(changedEmployee.getPersonalId());
-                    employee.setPosition(changedEmployee.getPosition());
-                    employee.setSalary(changedEmployee.getSalary());
-                    employee.setJobStartDate(changedEmployee.getJobStartDate());
-                    employee.setLastModifiedDate(LocalDate.now());
-                    return employeeRepository.save(employee);
-                })
-                .orElseGet(() -> {
-                    changedEmployee.setId(id);
-                    changedEmployee.setCreatedDate(LocalDate.now());
-                    changedEmployee.setLastModifiedDate(LocalDate.now());
-                    return employeeRepository.save(changedEmployee);
-                });
+    public Employee updateEmployee(Employee employee, long id) {
+        employee.setCreatedDate(employeeRepository.getById(id).getCreatedDate());
+        employee.setLastModifiedDate(LocalDate.now());
+        employee.setId(id);
+        return employeeRepository.save(employee);
     }
 
 

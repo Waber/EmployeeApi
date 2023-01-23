@@ -30,6 +30,10 @@ public class EmployeeService {
         return employeeRepository.existsById(id);
     }
 
+    public Optional<Employee> findById(Long id){
+        return employeeRepository.findById(id);
+    }
+
     public Employee addEmployee(Employee employee) {
         employee.setCreatedDate(LocalDate.now());
         employee.setLastModifiedDate(LocalDate.now());

@@ -31,7 +31,6 @@ public class Employee {
     @Column(name = "last_name")
     private String lastName;
 
-    //More readability in database with this annotation
     @Enumerated(EnumType.STRING)
     @Column(name = "position")
     private Position position;
@@ -55,7 +54,6 @@ public class Employee {
     @Column(name = "last_modified_date")
     @DateTimeFormat(pattern = "yyyy-MM")
     private LocalDate lastModifiedDate;
-
 
 
     public enum Position {PROGRAMMER, BUSINESS_ANALYST, PRODUCT_OWNER, MANAGER}

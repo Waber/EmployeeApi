@@ -109,11 +109,15 @@ public class EmployeeApiController {
             @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content),
             @ApiResponse(responseCode = "500", description = "Internal error", content = @Content)})
     public ResponseEntity<EmployeeResponseDto> partiallyUpdateEmployee(@RequestBody CreateEmployeeDto employeeDto, @PathVariable Long id){
-        if (!employeeService.existsById(id)){
+        Optional<Employee> employee = employeeService.findById(id);
+
+        if (!employee.isPresent()){
             return new ResponseEntity("Cannot find employee with id = " + id, HttpStatus.NOT_FOUND);
         }
-        //TODO dopisac patch
-        
+        //TODO dopisac patch, użyć mapstruct z https://kdrozd.pl/how-to-perform-a-partial-update-patch-with-explicit-null/
+        Employee employeeUpdated = employeeService.updateEmployee(employeeDtoMapper.convertDtoToEntityPartially(employeeDto),id);
+        return ResponseEntity.ok().body(employeeDtoMapper.convertToDto(employeeUpdated));
+
     }
 
     @DeleteMapping("/{id}")

@@ -21,24 +21,14 @@ public class EmployeeDtoMapper {
         return modelMapper.map(employee, EmployeeResponseDto.class);
     }
 
-//    public EmployeeResponseDto convertToDtoManual(Employee employee) {
-//        EmployeeResponseDto.EmployeeResponseDtoBuilder builder = EmployeeResponseDto.builder();
-//        return builder
-//                .id(employee.getId())
-//                .firstName(employee.getFirstName())
-//                .lastName(employee.getLastName())
-//               // .centerName(employee.getCenterName())
-//                .position(employee.getPosition())
-//                .personalId(employee.getPersonalId())
-//                .salary(employee.getSalary())
-//                .jobStartDate(employee.getJobStartDate())
-//                .createdDate(employee.getCreatedDate())
-//                .build();
-//
-//    }
 
     public  Employee convertDtoToEntity(CreateEmployeeDto employeeDto){
         return modelMapper.map(employeeDto, Employee.class);
+    }
+
+    public Employee convertDtoToEntityPartially(CreateEmployeeDto employeeDto){
+        this.modelMapper.getConfiguration().setSkipNullEnabled(true);
+        return modelMapper.map(employeeDto,Employee.class);//TODO nie działa
     }
 
 //    public List<EmployeeResponseDto> convertToDtos(Collection<Employee> employees){

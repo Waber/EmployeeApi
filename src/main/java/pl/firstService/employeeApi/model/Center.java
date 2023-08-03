@@ -1,12 +1,11 @@
 package pl.firstService.employeeApi.model;
 
 import lombok.*;
-import org.springframework.data.history.RevisionMetadata;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,6 +26,7 @@ public class Center {
     private String centerName;
 
     @Column(name = "center_code")
+    @Pattern(regexp = "PLC-\\d{5}")
     private Long centerCode;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "centerName", cascade = CascadeType.ALL)

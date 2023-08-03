@@ -5,8 +5,10 @@ import org.hibernate.annotations.Cascade;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "employees")
@@ -23,7 +25,8 @@ public class Employee {
     private Long id;
 
     @Column(name = "personal_id", nullable = false)
-    private Long personalId;
+    @Pattern(regexp = "\\d{11}")
+    private String personalId;
 
     @Column(name = "first_name")
     private String firstName;
@@ -35,8 +38,12 @@ public class Employee {
     @Column(name = "position")
     private Position position;
 
+    @Column(name = "monthly_salary")
+    private BigDecimal monthlySalary;
+
     @Column(name = "salary")
-    private BigDecimal salary;
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SalaryHistory> salaryHistoryList;
 
     @Column(name = "job_start_date")
     @DateTimeFormat(pattern = "yyyy-MM")

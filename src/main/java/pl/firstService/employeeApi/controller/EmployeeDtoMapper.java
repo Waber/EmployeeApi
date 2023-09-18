@@ -6,6 +6,7 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.spi.MatchingStrategy;
 import pl.firstService.employeeApi.dto.*;
 import pl.firstService.employeeApi.model.Employee;
+import pl.firstService.employeeApi.model.SalaryHistory;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -45,14 +46,14 @@ public class EmployeeDtoMapper {
                 .build();
     }
 
-    public EmployeeSumOfSalaryDTO convertToSumOfSalaryDTO(Employee employee, BigDecimal sumOfSalaryEarned){
+    public EmployeeSumOfSalaryDTO convertToSumOfSalaryDTO(Employee employee, SalaryHistory salaryHistory, BigDecimal sumOfSalaryEarned){
         EmployeeSumOfSalaryDTO.EmployeeSumOfSalaryDTOBuilder builder = EmployeeSumOfSalaryDTO.builder();
         return builder
                 .id(employee.getId())
                 .firstName(employee.getFirstName())
                 .lastName(employee.getLastName())
                 .jobStartDate(employee.getJobStartDate())
-                .salary(employee.getSalary())
+                .salary(employee.getMonthlySalary())
                 .amountOfSalaryEarnedSoFar(sumOfSalaryEarned)
                 .build();
     }
@@ -64,7 +65,7 @@ public class EmployeeDtoMapper {
                 .firstName(employee.getFirstName())
                 .lastName(employee.getLastName())
                 .jobStartDate(employee.getJobStartDate())
-                .salary(employee.getSalary())
+                .salary(employee.getMonthlySalary())
                 .averageSalary(averageSalary)
                 .build();
     }

@@ -10,8 +10,4 @@ import java.math.BigDecimal;
 public interface EmployeeRepository extends  JpaRepository<Employee, Long> {
 
 
-    @Query("SELECT avg (e.salary) as average_salary from Employee e where e.id=:id and extract (year from e.createdDate)=:year")
-    BigDecimal getAverageSalary(@Param("id") Long id, @Param("year") int year);
-
-
 }

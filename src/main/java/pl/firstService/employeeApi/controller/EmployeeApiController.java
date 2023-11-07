@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.firstService.employeeApi.dto.CenterCreateDto;
@@ -27,7 +28,6 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/employees")
 public class EmployeeApiController {
 
-    private static final String baseEmployeeUrl = "http://localhost:8080/employees/";
     private final EmployeeService employeeService;
     private final EmployeeDtoMapper employeeDtoMapper = new EmployeeDtoMapper();
 
@@ -66,7 +66,7 @@ public class EmployeeApiController {
 
 
 
-    @PostMapping()
+    @PostMapping
     @Operation(summary = "Add employee and create center if it does not exist")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Employee created", content = @Content(mediaType = "application/json",
@@ -76,7 +76,8 @@ public class EmployeeApiController {
     public ResponseEntity<EmployeeResponseDto> createEmployee(@RequestBody CreateEmployeeDto employeeDto){
         Employee employee = employeeService.addEmployee(employeeDtoMapper.convertDtoToEntity(employeeDto));
 
-        UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(baseEmployeeUrl+"{id}")
+        UriComponents uriComponents = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
                 .buildAndExpand(employee.getId());
         return ResponseEntity.created(uriComponents.toUri())
                 .body(employeeDtoMapper.convertToDto(employee));

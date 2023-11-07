@@ -26,8 +26,8 @@ public class Center {
     private String centerName;
 
     @Column(name = "center_code")
-    @Pattern(regexp = "PLC-\\d{5}")
-    private Long centerCode;
+    @Pattern(regexp = "PLC-\\d{1,5}")
+    private String centerCode;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "centerName", cascade = CascadeType.ALL)
     @Column(name = "employees")

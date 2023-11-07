@@ -7,5 +7,5 @@ import lombok.Getter;
 @Data
 public class CenterCreateDto {
     private String centerName;
-    private Long centerCode;
+    private String centerCode;
 }

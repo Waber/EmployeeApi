@@ -1,26 +1,36 @@
 package pl.firstService.employeeApi.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import pl.firstService.employeeApi.controller.CenterDtoMapper;
+import pl.firstService.employeeApi.dto.CenterDto;
 import pl.firstService.employeeApi.model.Center;
 import pl.firstService.employeeApi.repository.CenterRepository;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CenterService {
     private final CenterRepository centerRepository;
 
-    public List<Center> getCenters() {
-        return centerRepository.findAll();
+    public List<CenterDto> getCenters(CenterDtoMapper centerDtoMapper) {
+        return centerRepository.findAll().stream()
+                .map(centerDtoMapper::convertToDto)
+                .collect(Collectors.toList());
     }
 
-    public Optional<Center> getCenterById(Long id) {
-        return centerRepository.findById(id);
+    public ResponseEntity getCenterById(Long id, CenterDtoMapper centerDtoMapper) {
+        Optional<Center> entity = centerRepository.findById(id);
+        if (!entity.isPresent()) {
+            return new ResponseEntity(String.format("Center with id %s not found", id), HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(centerDtoMapper.convertToDto(entity.get()));
     }
 
     public Center addCenter(Center center) {

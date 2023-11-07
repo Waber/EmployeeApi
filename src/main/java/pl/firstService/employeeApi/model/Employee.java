@@ -25,7 +25,7 @@ public class Employee {
     private Long id;
 
     @Column(name = "personal_id", nullable = false)
-    @Pattern(regexp = "\\d{11}")
+    @Pattern(regexp = "\\d{1,11}")
     private String personalId;
 
     @Column(name = "first_name")
